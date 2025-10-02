@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 error_reporting(0);
@@ -208,7 +209,6 @@ if (strlen($_SESSION['emplogin']) == 0) {
 </body>
 
 </html>
-
 <?php  
     if(isset($_POST['update'])){
         $firstName = $_POST['firstName'];
@@ -218,7 +218,7 @@ if (strlen($_SESSION['emplogin']) == 0) {
         $dob = $_POST['dob'];
         $empcode = $_POST['empcode'];
         $address = $_POST['address'];
-        
+
         if ($_FILES['profilePic']['name']) {
             $file = $_FILES['profilePic'];
             $fileName = $_FILES['profilePic']['name'];
@@ -226,18 +226,18 @@ if (strlen($_SESSION['emplogin']) == 0) {
             $fileSize = $_FILES['profilePic']['size'];
             $fileError = $_FILES['profilePic']['error'];
             $fileType = $_FILES['profilePic']['type'];
-            
+
             $fileExt = explode('.', $fileName);
             $fileActualExt = strtolower(end($fileExt));
             $allowed = array('jpg', 'jpeg', 'png');
-            
+
             if (in_array($fileActualExt, $allowed)) {
                 if ($fileError === 0) {
                     if ($fileSize < 1000000) {
                         $fileNameNew = uniqid('', true).".".$fileActualExt;
                         $fileDestination = 'uploads/'.$fileNameNew;
                         move_uploaded_file($fileTmpName, $fileDestination);
-                        
+
                         $sql = "UPDATE tblemployees SET FirstName=:firstName, LastName=:lastName, EmailId=:email, Gender=:gender, Dob=:dob, EmpId=:empcode, Address=:address, ProfilePic=:profilePic WHERE EmailId=:eid";
                         $query = $dbh -> prepare($sql);
                         $query -> bindParam(':firstName', $firstName, PDO::PARAM_STR);
@@ -251,7 +251,9 @@ if (strlen($_SESSION['emplogin']) == 0) {
                         $query -> bindParam(':eid', $eid, PDO::PARAM_STR);
                         $query -> execute();
 
-                        $msg = "Profile Updated Successfully";
+                        // Refresh page to show updated image
+                        header("Location: " . $_SERVER['PHP_SELF']);
+                        exit;
                     } else {
                         $error = "Your file is too big!";
                     }
@@ -262,7 +264,7 @@ if (strlen($_SESSION['emplogin']) == 0) {
                 $error = "You cannot upload files of this type!";
             }
         } else {
-            // If no profile picture is uploaded, update the other fields only
+            // If no profile picture is uploaded, update other fields only
             $sql = "UPDATE tblemployees SET FirstName=:firstName, LastName=:lastName, EmailId=:email, Gender=:gender, Dob=:dob, EmpId=:empcode, Address=:address WHERE EmailId=:eid";
             $query = $dbh -> prepare($sql);
             $query -> bindParam(':firstName', $firstName, PDO::PARAM_STR);
@@ -274,9 +276,11 @@ if (strlen($_SESSION['emplogin']) == 0) {
             $query -> bindParam(':address', $address, PDO::PARAM_STR);
             $query -> bindParam(':eid', $eid, PDO::PARAM_STR);
             $query -> execute();
-            
-            $msg = "Profile Updated Successfully";
+
+            // Refresh page to show updated data
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         }
     }
+} // <-- CLOSES the 'else {' from the top
 ?>
-<?php } ?> 
