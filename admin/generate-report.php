@@ -1,7 +1,7 @@
 <?php
 include('../includes/dbconn.php');
 
-// Fetch data from the database
+// Fetch all leave data
 $sql = "SELECT 
             tblemployees.FirstName, 
             tblemployees.LastName, 
@@ -16,63 +16,147 @@ $sql = "SELECT
 $query = $dbh->prepare($sql);
 $query->execute();
 $results = $query->fetchAll(PDO::FETCH_OBJ);
-
-// Set headers for the document download
-header("Content-Type: application/vnd.ms-word");
-header("Content-Disposition: attachment; filename=leave-report.doc");
-
-// Start of the document content
-echo "<html>";
-echo "<head>";
-echo "<style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        h2 {
-            font-size: 24px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>";
-echo "</head>";
-echo "<body>";
-echo "<h2>Employee Leave Report</h2>";
-echo "<table>";
-echo "<tr>
-        <th>Employee ID</th>
-        <th>Full Name</th>
-        <th>Leave Type</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Applied On</th>
-        <th>Status</th>
-      </tr>";
-
-if ($query->rowCount() > 0) {
-    foreach ($results as $result) {
-        $status = ($result->Status == 1) ? "Approved" : (($result->Status == 2) ? "Declined" : "Pending");
-        echo "<tr>
-                <td>{$result->EmpId}</td>
-                <td>{$result->FirstName} {$result->LastName}</td>
-                <td>{$result->LeaveType}</td>
-                <td>{$result->FromDate}</td>
-                <td>{$result->ToDate}</td>
-                <td>{$result->PostingDate}</td>
-                <td>{$status}</td>
-              </tr>";
-    }
-}
-echo "</table>";
-echo "</body>";
-echo "</html>";
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Leave Requests</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 40px;
+            background-color: #fffceb;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #ffcc00;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 100px;
+        }
+
+        .header h2 {
+            margin: 10px 0 5px;
+            font-size: 28px;
+            color: #d71a28;
+        }
+
+        .header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .noprint {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .noprint button {
+            background-color: #d71a28;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .noprint button:hover {
+            background-color: #b01622;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ffe600;
+            color: #000;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fdf3d3;
+        }
+
+        h4 {
+            color: #d71a28;
+            margin-top: 40px;
+            border-bottom: 2px solid #d71a28;
+            padding-bottom: 5px;
+        }
+
+        @media print {
+            .noprint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noprint">
+        <button onclick="window.print()">🖨️ Print This Page</button>
+    </div>
+
+    <div class="header">
+        <img src="../assets/images/mcdo-logo.png" alt="McDonald's Logo">
+        <h2>McDonald's Marasbaras Branch</h2>
+        <h3>All Employee Leave Report</h3>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Full Name</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Applied On</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ($query->rowCount() > 0): ?>
+                <?php foreach ($results as $result): ?>
+                    <?php
+                        $status = $result->Status;
+                        if ($status == 1) $statusText = "Approved";
+                        elseif ($status == 2) $statusText = "Declined";
+                        else $statusText = "Pending";
+                    ?>
+                    <tr>
+                        <td><?php echo htmlentities($result->EmpId); ?></td>
+                        <td><?php echo htmlentities($result->FirstName . ' ' . $result->LastName); ?></td>
+                        <td><?php echo htmlentities($result->LeaveType); ?></td>
+                        <td><?php echo htmlentities($result->FromDate); ?></td>
+                        <td><?php echo htmlentities($result->ToDate); ?></td>
+                        <td><?php echo htmlentities($result->PostingDate); ?></td>
+                        <td><?php echo htmlentities($statusText); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7">No leave requests found.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 40px;">Generated by: Admin</p>
+</body>
+</html>

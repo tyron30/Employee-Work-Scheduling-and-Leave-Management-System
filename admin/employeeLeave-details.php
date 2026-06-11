@@ -326,17 +326,18 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 
 
-                                <tr>
+ <tr>
     <td><b>Proof File:</b></td>
     <td colspan="5">
         <?php
         if (!empty($result->ProofFile)) {
-            // File path setup
-            $filePath = "../uploads/" . htmlentities($result->ProofFile);
+            // Normalize path (avoid double ../uploads/)
+            $filePath = $result->ProofFile;
+            if (strpos($filePath, "../uploads/") !== 0) {
+                $filePath = "../uploads/" . $filePath;
+            }
 
-            // Check if the file exists
             if (file_exists($filePath)) {
-                // Display both view and download options
                 echo "<a href='" . $filePath . "' target='_blank'>View Proof File</a> | ";
                 echo "<a href='" . $filePath . "' download>Download Proof File</a>";
             } else {

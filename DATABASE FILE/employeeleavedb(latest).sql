@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2025 at 06:22 AM
+-- Generation Time: Oct 02, 2025 at 05:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,6 +90,7 @@ CREATE TABLE `tblemployees` (
   `Gender` varchar(100) NOT NULL,
   `Dob` varchar(100) NOT NULL,
   `Address` varchar(255) NOT NULL,
+  `ProfilePic` varchar(255) DEFAULT NULL,
   `Phonenumber` char(11) NOT NULL,
   `Status` int(1) NOT NULL,
   `RegDate` timestamp NOT NULL DEFAULT current_timestamp()
@@ -99,10 +100,12 @@ CREATE TABLE `tblemployees` (
 -- Dumping data for table `tblemployees`
 --
 
-INSERT INTO `tblemployees` (`id`, `EmpId`, `FirstName`, `LastName`, `EmailId`, `Password`, `Gender`, `Dob`, `Address`, `Phonenumber`, `Status`, `RegDate`) VALUES
-(21, '21', 'Nayen', 'Alberca', 'nayenalberca@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Female', '2002-04-05', 'Tac City', '', 1, '2025-03-28 17:10:53'),
-(125, '125', 'Dave', 'Ranera', 'daveranera@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Male', '2002-01-01', 'Tac City', '', 1, '2025-04-14 16:40:21'),
-(300, '300', 'Tyron', 'Del Valle', 'tyrondelvalle01@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Male', '2002-03-01', 'San Miguel, Leyte', '', 1, '2025-03-13 16:42:12');
+INSERT INTO `tblemployees` (`id`, `EmpId`, `FirstName`, `LastName`, `EmailId`, `Password`, `Gender`, `Dob`, `Address`, `ProfilePic`, `Phonenumber`, `Status`, `RegDate`) VALUES
+(21, '21', 'Nayen', 'Alberca', 'nayenalberca@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Female', '2002-04-05', 'Tac City', '68ddec489a2e60.11389177.jpeg', '', 1, '2025-03-28 17:10:53'),
+(100, '100', 'Test', 'Only', 'testonly@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Male', '2001-01-30', 'tac', NULL, '', 1, '2025-09-10 05:38:36'),
+(111, '111', 'sample', 'only', 'sample@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Female', '2000-01-05', 'sm', NULL, '', 1, '2025-09-10 06:01:37'),
+(125, '125', 'Dave', 'Ranera', 'daveranera@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Male', '2002-01-01', 'Tac City', '68ddee9b92b6d5.28123394.jpg', '', 1, '2025-04-14 16:40:21'),
+(300, '300', 'Tyron', 'Del Valle', 'tyrondelvalle01@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Male', '2002-03-01', 'San Miguel, Leyte', '68dddb3fe8eda7.55600633.jpg', '', 1, '2025-03-13 16:42:12');
 
 -- --------------------------------------------------------
 
@@ -130,10 +133,16 @@ CREATE TABLE `tblleaves` (
 --
 
 INSERT INTO `tblleaves` (`id`, `LeaveType`, `ToDate`, `FromDate`, `Description`, `PostingDate`, `AdminRemark`, `AdminRemarkDate`, `Status`, `IsRead`, `empid`, `ProofFile`) VALUES
-(53, 'Bereavement Leave', '2025-03-29', '2025-03-18', 'da', '2025-03-13 17:31:17', NULL, NULL, 0, 1, 21, '../uploads/67d316657e1a6-Screenshot (31).png'),
-(54, 'Maternity Leave', '2025-04-30', '2025-04-17', 'uug', '2025-03-29 09:25:23', 'jb', '2025-03-29 05:26 PM', 0, 1, 22, '../uploads/67e7bc83af377-Screenshot (12).png'),
+(53, 'Bereavement Leave', '2025-03-29', '2025-03-18', 'da', '2025-03-13 17:31:17', 's', '2025-10-02 7:35:14', 2, 1, 21, '67d316657e1a6-Screenshot (31).png'),
+(54, 'Maternity Leave', '2025-04-30', '2025-04-17', 'uug', '2025-03-29 09:25:23', 'jb', '2025-03-29 05:26 PM', 0, 1, 22, '67e7bc83af377-Screenshot (12).png'),
 (55, 'Maternity Leave', '2025-09-24', '2025-09-14', '', '2025-09-10 04:18:33', 'ok', '2025-09-10 9:48:46', 2, 1, 300, ''),
-(56, 'Maternity Leave', '2025-09-27', '2025-09-14', '', '2025-09-10 04:21:48', NULL, NULL, 0, 1, 125, '');
+(56, 'Maternity Leave', '2025-09-27', '2025-09-14', '', '2025-09-10 04:21:48', NULL, NULL, 0, 1, 125, ''),
+(57, 'Medical Leave', '2025-09-27', '2025-09-16', '', '2025-09-10 05:18:42', NULL, NULL, 0, 0, 10, ''),
+(58, 'Bereavement Leave', '2025-09-30', '2025-09-22', '', '2025-09-10 05:55:03', 'ok', '2025-09-10 11:30:16', 2, 1, 100, '68c112b7404cd-5659d3cc7968ba91c75f9576625cd553.jpg'),
+(59, 'Paternity Leave', '2025-09-30', '2025-09-19', '', '2025-09-10 06:03:17', NULL, NULL, 0, 1, 111, ''),
+(60, 'Maternity Leave', '2025-09-25', '2025-09-20', '', '2025-09-16 02:26:23', 'no', '2025-10-02 7:28:48', 2, 1, 300, ''),
+(63, 'Bereavement Leave', '2025-10-17', '2025-10-10', 'HUHU', '2025-10-02 02:25:00', 's', '2025-10-02 8:28:00', 2, 1, 21, '68dde27c22ba4-McDonald\'s_logo.svg.png'),
+(64, 'Bereavement Leave', '2025-10-17', '2025-10-10', 'awts', '2025-10-02 02:58:39', NULL, NULL, 0, 1, 21, '../uploads/68ddea5f2bf2a-grad pic.jpg');
 
 -- --------------------------------------------------------
 
@@ -180,9 +189,18 @@ CREATE TABLE `tblschedule` (
 --
 
 INSERT INTO `tblschedule` (`id`, `EmpId`, `shift_date`, `start_time`, `end_time`, `assigned_department`, `description`) VALUES
-(15, '300', '2025-04-14', '05:00:00', '11:00:00', 'Eggs', ''),
+(15, '125', '2025-04-14', '05:00:00', '11:00:00', 'Eggs', ''),
 (16, '21', '2025-04-14', '05:00:00', '11:00:00', 'Batch Grill', ''),
-(17, '125', '2025-04-14', '11:00:00', '18:00:00', 'Batch Grill', '');
+(17, '300', '2025-04-14', '11:00:00', '18:00:00', 'Batch Grill', ''),
+(18, '300', '2025-09-15', '05:00:00', '11:00:00', 'Chicken Person', ''),
+(19, '21', '2025-09-15', '11:00:00', '18:00:00', 'Assembler', ''),
+(20, '125', '2025-09-15', '05:00:00', '11:00:00', 'Batch Grill', ''),
+(25, '125', '2025-09-19', '05:00:00', '06:00:00', 'Batch Grill', ''),
+(26, '100', '2025-09-19', '05:00:00', '11:00:00', 'Assembler', ''),
+(27, '300', '2025-09-19', '05:00:00', '11:00:00', 'Chicken Person', ''),
+(28, '100', '2025-09-15', '05:00:00', '11:00:00', 'Eggs', ''),
+(29, '111', '2025-09-15', '05:00:00', '11:00:00', 'Prepping', ''),
+(30, '21', '2025-09-19', '05:00:00', '11:00:00', 'GY Initiator/Assembler', '');
 
 --
 -- Indexes for dumped tables
@@ -205,7 +223,8 @@ ALTER TABLE `tbldepartments`
 --
 ALTER TABLE `tblemployees`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_empid` (`EmpId`);
+  ADD UNIQUE KEY `unique_empid` (`EmpId`),
+  ADD UNIQUE KEY `EmpId` (`EmpId`);
 
 --
 -- Indexes for table `tblleaves`
@@ -244,16 +263,10 @@ ALTER TABLE `tbldepartments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `tblemployees`
---
-ALTER TABLE `tblemployees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
-
---
 -- AUTO_INCREMENT for table `tblleaves`
 --
 ALTER TABLE `tblleaves`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tblleavetype`
@@ -265,7 +278,7 @@ ALTER TABLE `tblleavetype`
 -- AUTO_INCREMENT for table `tblschedule`
 --
 ALTER TABLE `tblschedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables

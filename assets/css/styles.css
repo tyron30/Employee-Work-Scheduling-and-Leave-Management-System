@@ -127,13 +127,12 @@
 }
 
 .menu-inner {
-  overflow-y: scroll;
+  overflow: hidden;
   height: 100%;
 }
 
 .slimScrollBar {
-  background: #fff !important;
-  opacity: 0.1 !important;
+  display: none !important;
 }
 
 .sidebar-header {
@@ -2294,9 +2293,28 @@ table.dataTable thead td {
 
 /*-------------------- 23. Login ------------------- */
 
+
 .login-area {
-  background: #f3f8fb;
+ background-image: url('../images/McDonalds.jpg');
+  background-size: cover; /* Better scaling to cover the area without distortion */
+  background-position: left;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* Fixed invalid value */
+  align-items: center;
+  color: white;
+  padding: 20px;
 }
+
+@media (max-width: 768px) {
+  .login-area {
+    background-size: 150%; /* Slightly zooms out more on smaller screens */
+    background-position:  left;
+  }
+}
+
+
 
 .login-box {
   display: -webkit-box;
@@ -2315,8 +2333,9 @@ table.dataTable thead td {
 
 .login-form-head {
   text-align: center;
-  background: #8655fc;
+  background: #7b75dd;
   padding: 50px;
+  border-radius: 20px;
 }
 
 .login-form-head h4 {
@@ -2475,11 +2494,13 @@ table.dataTable thead td {
 
 /* login-s2 */
 
+
 .login-s2 {
-  background: #fff;
+background-image: url('../images/McDonalds.jpg');
   position: relative;
   z-index: 1;
   overflow: hidden;
+
 }
 
 .login-s2:before {
@@ -2487,23 +2508,28 @@ table.dataTable thead td {
   position: absolute;
   height: 206%;
   width: 97%;
-  background: #fcfcff;
   border-radius: 50%;
   left: -42%;
   z-index: -1;
   top: -47%;
-  box-shadow: inset 0 0 51px rgba(0, 0, 0, 0.1);
+  /* Removed box-shadow to prevent obscuring the background image */
+
 }
 
-.login-s2 .login-form-head,
+
 .login-s2 .login-box form,
 .login-s2 .login-box form .form-gp input {
-  background: transparent;
+  background: rgb(250, 247, 247);
+  border-radius: 20px;
+  
+  
 }
 
 .login-s2 .login-form-head h4,
-.login-s2 .login-form-head p {
-  color: #444;
+.login-s2 .login-form-head p {  
+  color: #fcf7f7;
+  border-radius: 20px;
+ 
 }
 
 /* login-s3 */

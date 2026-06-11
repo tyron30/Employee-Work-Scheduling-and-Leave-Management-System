@@ -289,5 +289,30 @@ foreach ($schedules as $schedule) {
             </div>
         </div>
     </div>
+    <!-- jquery latest version -->
+    <script src="../assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <!-- bootstrap 4 js -->
+    <script src="../assets/js/popper.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/owl.carousel.min.js"></script>
+    <script src="../assets/js/metisMenu.min.js"></script>
+    <script src="../assets/js/jquery.slimscroll.min.js"></script>
+    <script src="../assets/js/jquery.slicknav.min.js"></script>
+
+    <!-- Force sidebar to be expanded on work-schedule page -->
+    <script>
+        $(document).ready(function() {
+            $('.page-container').removeClass('sbar_collapsed');
+        });
+
+        function toggleManageLeave() {
+            var submenu = document.getElementById('manage-leave-submenu');
+            if (submenu.style.display === 'none' || submenu.style.display === '') {
+                submenu.style.display = 'block';
+            } else {
+                submenu.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

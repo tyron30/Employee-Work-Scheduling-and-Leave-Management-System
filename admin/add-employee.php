@@ -16,6 +16,7 @@ if(strlen($_SESSION['alogin']) == 0) {
         $dob = $_POST['dob']; 
         $address = $_POST['address']; 
         $status = 1;
+       
 
         // Calculate age
         $dob_date = new DateTime($dob); // Create DateTime object from DOB
@@ -26,34 +27,41 @@ if(strlen($_SESSION['alogin']) == 0) {
             $error = "Employee must be at least 16 years old.";
         } else {
             // Check if the Employee ID already exists
-            $sql = "SELECT EmpId FROM tblemployees WHERE EmpId = :empid";
-            $query = $dbh->prepare($sql);
-            $query->bindParam(':empid', $empid, PDO::PARAM_STR);
-            $query->execute();
-        
-            if($query->rowCount() > 0) {
-                $error = "Employee ID already exists. Please use a different ID.";
-            } else {
-                // Insert into database if no duplicate is found
-                $sql = "INSERT INTO tblemployees(EmpId, FirstName, LastName, EmailId, Password, Gender, Dob, Address, Status) 
-                        VALUES(:empid, :fname, :lname, :email, :password, :gender, :dob, :address, :status)";
-                $query = $dbh->prepare($sql);
-                $query->bindParam(':empid', $empid, PDO::PARAM_STR);
-                $query->bindParam(':fname', $fname, PDO::PARAM_STR);
-                $query->bindParam(':lname', $lname, PDO::PARAM_STR);
-                $query->bindParam(':email', $email, PDO::PARAM_STR);
-                $query->bindParam(':password', $password, PDO::PARAM_STR);
-                $query->bindParam(':gender', $gender, PDO::PARAM_STR);
-                $query->bindParam(':dob', $dob, PDO::PARAM_STR);
-                $query->bindParam(':address', $address, PDO::PARAM_STR);
-                $query->bindParam(':status', $status, PDO::PARAM_STR);
-        
-                if($query->execute()) {
-                    $msg = "Record has been added successfully.";
-                } else {
-                    $error = "ERROR: Could not add the employee record.";
-                }
-            }
+$sql = "SELECT EmpId FROM tblemployees WHERE EmpId = :empid";
+$query = $dbh->prepare($sql);
+$query->bindParam(':empid', $empid, PDO::PARAM_STR);
+$query->execute();
+
+if($query->rowCount() > 0) {
+    $error = "Employee ID already exists. Please use a different ID.";
+} else {
+
+    // id = empid
+    $id = $empid;
+
+    // Insert into database
+    $sql = "INSERT INTO tblemployees(id, EmpId, FirstName, LastName, EmailId, Password, Gender, Dob, Address, Status) 
+            VALUES(:id, :empid, :fname, :lname, :email, :password, :gender, :dob, :address, :status)";
+    
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':id', $id, PDO::PARAM_STR);
+    $query->bindParam(':empid', $empid, PDO::PARAM_STR);
+    $query->bindParam(':fname', $fname, PDO::PARAM_STR);
+    $query->bindParam(':lname', $lname, PDO::PARAM_STR);
+    $query->bindParam(':email', $email, PDO::PARAM_STR);
+    $query->bindParam(':password', $password, PDO::PARAM_STR);
+    $query->bindParam(':gender', $gender, PDO::PARAM_STR);
+    $query->bindParam(':dob', $dob, PDO::PARAM_STR);
+    $query->bindParam(':address', $address, PDO::PARAM_STR);
+    $query->bindParam(':status', $status, PDO::PARAM_STR);
+
+    if($query->execute()) {
+        $msg = "Record has been added successfully.";
+    } else {
+        $error = "ERROR: Could not add the employee record.";
+    }
+}
+
         }
     }
 }
